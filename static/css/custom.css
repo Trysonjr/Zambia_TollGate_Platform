@@ -1,0 +1,338 @@
+/* ==========================================================================
+   Integrated Automated Self-Service Tollgate Platform - Zambia
+   Modern Transport Tech & Zambian National Theme
+   ========================================================================== */
+
+:root {
+    --zm-green: #0b6623;
+    --zm-green-dark: #074b19;
+    --zm-copper: #c85a17;
+    --zm-copper-light: #e67e22;
+    --zm-red: #c0392b;
+    --zm-black: #1e272e;
+    --zm-bg-light: #f8fafc;
+    --zm-card-border: #e2e8f0;
+}
+
+body {
+    background-color: var(--zm-bg-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #334155;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Zambian Tricolor Top Ribbon */
+.zm-ribbon {
+    height: 5px;
+    background: linear-gradient(to right, #0b6623 0%, #0b6623 40%, #c0392b 40%, #c0392b 60%, #1e272e 60%, #1e272e 80%, #c85a17 80%, #c85a17 100%);
+    width: 100%;
+}
+
+/* Academic Prototype Header Notice */
+.academic-banner {
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    padding: 0.45rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.academic-badge {
+    background-color: var(--zm-copper);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Navigation Bar */
+.navbar-brand-logo {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0f172a !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: #475569 !important;
+    transition: all 0.15s ease-in-out;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--zm-green) !important;
+}
+
+/* Cards & Containers */
+.card-tech {
+    background: #ffffff;
+    border: 1px solid var(--zm-card-border);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.card-tech:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.card-tech-header {
+    background: transparent;
+    border-bottom: 1px solid var(--zm-card-border);
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ==========================================================================
+   Tollgate Simulation Visual Elements (BOOM BARRIER & SENSORS)
+   ========================================================================== */
+
+.simulation-booth-stage {
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Road Lane & Markings */
+.road-lane-container {
+    height: 180px;
+    background: #334155;
+    position: relative;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 3px solid #475569;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+}
+
+.road-dashed-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: repeating-linear-gradient(90deg, #fbbf24, #fbbf24 30px, transparent 30px, transparent 60px);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* Boom Barrier Assembly */
+.barrier-station {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: flex-end;
+}
+
+.barrier-pillar {
+    width: 36px;
+    height: 110px;
+    background: linear-gradient(to right, #e2e8f0, #94a3b8);
+    border-radius: 6px 6px 0 0;
+    border: 2px solid #1e293b;
+    position: relative;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.barrier-pivot {
+    width: 24px;
+    height: 24px;
+    background: #0f172a;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    left: 6px;
+    border: 3px solid #f8fafc;
+    z-index: 15;
+}
+
+/* Physical Animated Barrier Arm */
+.barrier-arm {
+    position: absolute;
+    top: 24px;
+    left: 18px;
+    width: 200px;
+    height: 12px;
+    background: repeating-linear-gradient(
+        45deg,
+        #dc2626,
+        #dc2626 15px,
+        #ffffff 15px,
+        #ffffff 30px
+    );
+    border-radius: 4px;
+    border: 1px solid #7f1d1d;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    transform-origin: 0% 50%;
+    transform: rotate(0deg);
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 12;
+}
+
+/* When Barrier is Triggered OPEN */
+.barrier-arm.open {
+    transform: rotate(-85deg);
+}
+
+/* Traffic Light Sensor */
+.traffic-light-unit {
+    width: 32px;
+    background: #090d16;
+    border-radius: 16px;
+    padding: 6px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 2px solid #334155;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.light-bulb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #334155;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.light-bulb.red.active {
+    background: #ef4444;
+    box-shadow: 0 0 15px #ef4444, inset 0 0 4px #ffffff;
+}
+
+.light-bulb.green.active {
+    background: #10b981;
+    box-shadow: 0 0 15px #10b981, inset 0 0 4px #ffffff;
+}
+
+/* Simulated Vehicle Graphic */
+.simulated-vehicle-box {
+    background: #0284c7;
+    border: 2px solid #38bdf8;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    min-width: 140px;
+    transition: transform 0.6s ease;
+}
+
+.simulated-plate-badge {
+    background: #facc15;
+    color: #0f172a;
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    border: 2px solid #0f172a;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* ANPR Laser Scanner Effect */
+.anpr-scan-zone {
+    position: relative;
+    border: 2px dashed #0284c7;
+    border-radius: 8px;
+    background: rgba(2, 132, 199, 0.05);
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.scan-laser-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #38bdf8, #0284c7, #38bdf8, transparent);
+    box-shadow: 0 0 12px #38bdf8;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.anpr-scan-zone.scanning .scan-laser-line {
+    opacity: 1;
+    animation: scanAnim 1.8s infinite ease-in-out;
+}
+
+@keyframes scanAnim {
+    0% { top: 0%; }
+    50% { top: 96%; }
+    100% { top: 0%; }
+}
+
+/* RFID Pulse Sensor */
+.rfid-pulse-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    color: #10b981;
+    padding: 0.3rem 0.8rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Status Badges */
+.badge-closed {
+    background-color: #ef4444 !important;
+    color: #ffffff;
+}
+
+.badge-open {
+    background-color: #10b981 !important;
+    color: #ffffff;
+    animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Future Module Card Accents */
+.card-future-module {
+    border-left: 4px solid var(--zm-copper);
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-future-module:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styling */
+footer {
+    margin-top: auto;
+    background: #0f172a;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid #1e293b;
+}

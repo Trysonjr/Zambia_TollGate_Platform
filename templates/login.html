@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - Zambia Tollgate Platform{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card card-tech shadow-lg border-0">
+                <div class="card-body p-4 p-lg-5">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex bg-success text-white p-3 rounded-circle mb-2">
+                            <i class="fa fa-road-barrier fs-3"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark">Portal Authentication</h4>
+                        <p class="text-muted small">Access your Motorist Toll Account or Admin Console</p>
+                    </div>
+
+                    <!-- Quick Demo Credentials Box for Panel Evaluation -->
+                    <div class="p-3 bg-light rounded-3 border mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="small fw-bold text-uppercase text-muted"><i class="fa fa-key text-warning me-1"></i>Demo Quick-Fill:</span>
+                            <span class="badge bg-secondary">For Examiners</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-success text-start" onclick="fillLogin('motorist@test.zm', 'Motorist@123')">
+                                <i class="fa fa-user me-1"></i><strong>Demo Motorist:</strong> motorist@test.zm / Motorist@123
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-dark text-start" onclick="fillLogin('admin@tollgate.gov.zm', 'Admin@123')">
+                                <i class="fa fa-shield-alt me-1"></i><strong>Administrator:</strong> admin@tollgate.gov.zm / Admin@123
+                            </button>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa fa-envelope text-muted"></i></span>
+                                <input type="email" name="email" id="loginEmail" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa fa-lock text-muted"></i></span>
+                                <input type="password" name="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg fw-bold">
+                                <i class="fa fa-sign-in-alt me-2"></i>Sign In
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4 small text-muted">
+                        Don't have a toll account? 
+                        <a href="{{ url_for('auth.register') }}" class="fw-bold text-success">Register Here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function fillLogin(email, pass) {
+    document.getElementById('loginEmail').value = email;
+    document.getElementById('loginPassword').value = pass;
+}
+</script>
+{% endblock %}

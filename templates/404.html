@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - Zambia Tollgate Platform{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="py-5">
+        <i class="fa fa-triangle-exclamation text-warning display-1 mb-3"></i>
+        <h1 class="display-5 fw-bold text-dark">404 - Page Not Found</h1>
+        <p class="lead text-muted mb-4">The requested highway portal resource does not exist or has been relocated.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary px-4 fw-bold">
+            <i class="fa fa-home me-2"></i>Return to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

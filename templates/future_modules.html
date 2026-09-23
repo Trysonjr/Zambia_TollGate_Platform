@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}System Modules (Future Scope) - Zambia Tollgate Platform{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-4 py-4">
+    <!-- Breadcrumb & Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">System Modules</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold mb-0 text-dark">
+                <i class="fa fa-cubes text-warning me-2"></i>Proposed System Modules & Expansion Architecture
+            </h2>
+            <small class="text-muted">Comprehensive architectural blueprint showing how the 30% functional prototype expands into the full 100% national system</small>
+        </div>
+        <div>
+            <span class="badge bg-warning text-dark py-2 px-3 fw-bold fs-6">
+                <i class="fa fa-compass me-1"></i>70% Future Implementation Scope
+            </span>
+        </div>
+    </div>
+
+    <!-- Architectural Context Notice for Examiners -->
+    <div class="card card-tech mb-4 border-warning border-opacity-50" style="background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);">
+        <div class="card-body p-4">
+            <div class="row align-items-center g-3">
+                <div class="col-lg-8">
+                    <h5 class="fw-bold text-dark mb-2">
+                        <i class="fa fa-circle-nodes text-warning me-2"></i>Academic Architecture & Scalability Roadmap
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        In accordance with the 30% academic prototype specification, the core vehicle identification, toll fee calculation, boom barrier simulation, motorist wallet, transaction logging, and audit tracking are <strong>genuinely operational</strong>. The 18 modules below represent the planned commercialized deployment infrastructure.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <div class="d-inline-flex flex-column text-start p-3 bg-white rounded-3 border small">
+                        <div class="fw-bold text-dark mb-1">Demonstration Status:</div>
+                        <div><i class="fa fa-check text-success me-1"></i><strong>30% Functional:</strong> Live in this prototype</div>
+                        <div><i class="fa fa-clock text-warning me-1"></i><strong>70% Architecture:</strong> Conceptual / Hardware</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid of 18 Future Modules -->
+    <div class="row g-4">
+        {% for mod in modules %}
+        <div class="col-md-6 col-xl-4">
+            <div class="card card-tech card-future-module h-100 p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="p-3 bg-light rounded-3 text-primary">
+                        <i class="fa {{ mod.icon }} fs-3"></i>
+                    </div>
+                    <span class="badge bg-warning bg-opacity-25 text-warning-emphasis border border-warning small fw-bold">
+                        {{ mod.badge }}
+                    </span>
+                </div>
+                
+                <span class="badge bg-secondary text-uppercase mb-2 align-self-start" style="font-size: 0.68rem; letter-spacing: 0.05em;">
+                    {{ mod.category }}
+                </span>
+                
+                <h5 class="fw-bold text-dark mb-2">{{ mod.title }}</h5>
+                <p class="text-muted small flex-grow-1 mb-3">
+                    {{ mod.description }}
+                </p>
+
+                <div class="p-2 bg-light rounded-3 border small mb-3">
+                    <div class="text-muted mb-1" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Target Stack:</div>
+                    <div class="font-monospace text-dark text-truncate" title="{{ mod.tech_stack }}">{{ mod.tech_stack }}</div>
+                </div>
+
+                <div class="pt-2 border-top d-flex justify-content-between align-items-center small">
+                    <span class="text-muted">Prototype Status:</span>
+                    <span class="fw-bold text-success">{{ mod.readiness }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

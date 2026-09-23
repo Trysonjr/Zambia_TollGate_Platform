@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% block title %}Motorist Toll Account - Problem Statement 2{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-4 py-4">
+    <!-- Breadcrumb & Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Motorist Account</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold mb-0 text-dark">
+                <i class="fa fa-wallet text-primary me-2"></i>Motorist Toll Account Portal
+            </h2>
+            <small class="text-muted">Problem Statement 2: Centralized Self-Service Account, Vehicle Management & Wallet Funding</small>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-success fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#fundAccountModal">
+                <i class="fa fa-plus-circle me-1"></i>Fund Toll Account
+            </button>
+            <a href="{{ url_for('motorist.vehicles_page') }}" class="btn btn-outline-primary">
+                <i class="fa fa-car me-1"></i>Manage Vehicles
+            </a>
+        </div>
+    </div>
+
+    <!-- Balance & Account Overview Cards -->
+    <div class="row g-3 mb-4">
+        <!-- Main Balance Card -->
+        <div class="col-lg-4">
+            <div class="card card-tech h-100 p-4 border-success border-opacity-50" style="background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <span class="badge bg-success bg-opacity-10 text-success mb-2">NRFA Toll Account</span>
+                        <div class="text-muted small">Current Available Balance</div>
+                        <h1 class="display-5 fw-bold text-success mb-0">{{ account.balance | currency }}</h1>
+                    </div>
+                    <div class="p-3 bg-success bg-opacity-10 text-success rounded-4">
+                        <i class="fa fa-coins fs-2"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-top d-flex justify-content-between small text-muted">
+                    <span>Account Number: <strong class="text-dark font-monospace">{{ account.account_number }}</strong></span>
+                    <span class="badge bg-success">{{ account.status }}</span>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-success w-100 fw-bold" data-bs-toggle="modal" data-bs-target="#fundAccountModal">
+                        <i class="fa fa-arrow-up-right-from-square me-1"></i>Add Funds to Wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Holder Profile Card -->
+        <div class="col-lg-4">
+            <div class="card card-tech h-100 p-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle">
+                        <i class="fa fa-user fs-3"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-0 text-dark">{{ user.full_name }}</h5>
+                        <small class="text-muted">{{ user.email }}</small>
+                    </div>
+                </div>
+                <ul class="list-unstyled small text-secondary mb-0">
+                    <li class="py-1 d-flex justify-content-between border-bottom">
+                        <span>Mobile Contact:</span>
+                        <strong class="text-dark">{{ user.phone }}</strong>
+                    </li>
+                    <li class="py-1 d-flex justify-content-between border-bottom">
+                        <span>Role:</span>
+                        <span class="badge bg-secondary text-capitalize">{{ user.role }}</span>
+                    </li>
+                    <li class="py-1 d-flex justify-content-between">
+                        <span>Member Since:</span>
+                        <span class="text-dark">{{ user.created_at.strftime('%d %b %Y') if user.created_at else 'Recent' }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Registered Fleet Summary -->
+        <div class="col-lg-4">
+            <div class="card card-tech h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <span class="text-muted small">Registered Fleet</span>
+                        <h3 class="fw-bold text-dark mb-0">{{ vehicles | length }} Vehicle(s)</h3>
+                    </div>
+                    <div class="p-3 bg-info bg-opacity-10 text-info rounded-3">
+                        <i class="fa fa-car-side fs-3"></i>
+                    </div>
+                </div>
+                <div class="small text-muted mb-3">
+                    All registered vehicles are linked with RFID/E-Tags for automatic boom barrier clearance.
+                </div>
+                <div class="mt-auto">
+                    <a href="{{ url_for('motorist.vehicles_page') }}" class="btn btn-outline-secondary w-100 btn-sm">
+                        <i class="fa fa-plus me-1"></i>Register Another Vehicle
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registered Vehicles & Windshield Tags Table -->
+    <div class="card card-tech mb-4">
+        <div class="card-tech-header bg-light">
+            <span class="text-dark"><i class="fa fa-car me-2 text-primary"></i>My Registered Vehicles & RFID/E-Tags</span>
+            <a href="{{ url_for('motorist.vehicles_page') }}" class="btn btn-sm btn-primary">
+                <i class="fa fa-plus me-1"></i>Add New Vehicle
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light small text-uppercase">
+                        <tr>
+                            <th>Registration Number</th>
+                            <th>Vehicle Type</th>
+                            <th>Make & Model</th>
+                            <th>Windshield E-Tag ID</th>
+                            <th>Toll Fee Tariff</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for v in vehicles %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-warning text-dark font-monospace fs-6 px-2 py-1 border border-dark">
+                                    {{ v.registration_number }}
+                                </span>
+                            </td>
+                            <td class="fw-semibold">{{ v.vehicle_type }}</td>
+                            <td class="text-muted">{{ v.make_model }}</td>
+                            <td>
+                                <span class="badge bg-light text-dark border font-monospace">
+                                    <i class="fa fa-rss me-1 text-success"></i>{{ v.rfid_tag }}
+                                </span>
+                            </td>
+                            <td class="fw-bold text-success">
+                                {% if v.vehicle_type == 'Light Vehicle' %}K20.00
+                                {% elif v.vehicle_type == 'Medium Vehicle' %}K50.00
+                                {% elif v.vehicle_type == 'Heavy Vehicle' %}K100.00
+                                {% else %}K250.00{% endif %}
+                            </td>
+                            <td><span class="badge bg-success">{{ v.status }}</span></td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                No vehicles registered under your account yet. 
+                                <a href="{{ url_for('motorist.vehicles_page') }}">Register your first vehicle now.</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Motorist Toll Crossings Ledger -->
+    <div class="card card-tech mb-4">
+        <div class="card-tech-header bg-light">
+            <span class="text-dark"><i class="fa fa-clock-rotate-left me-2 text-muted"></i>My Recent Toll Crossing Transactions</span>
+            <span class="badge bg-secondary">Toll Activity Ledger</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light small text-uppercase">
+                        <tr>
+                            <th>Reference</th>
+                            <th>Vehicle</th>
+                            <th>Toll Plaza & Lane</th>
+                            <th>Amount</th>
+                            <th>Payment Channel</th>
+                            <th>Status</th>
+                            <th>Date / Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tx in transactions %}
+                        <tr>
+                            <td><span class="badge bg-secondary font-monospace">{{ tx.transaction_ref }}</span></td>
+                            <td class="fw-bold">{{ tx.vehicle_reg }}</td>
+                            <td>{{ tx.tollgate.name if tx.tollgate else 'National Plaza' }} ({{ tx.lane_number }})</td>
+                            <td class="fw-bold text-success">{{ tx.amount | currency }}</td>
+                            <td><span class="badge bg-primary">{{ tx.payment_method }}</span></td>
+                            <td>
+                                {% if tx.status == 'SUCCESSFUL' %}
+                                    <span class="badge bg-success">Paid</span>
+                                {% else %}
+                                    <span class="badge bg-danger">{{ tx.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="small text-muted">{{ tx.created_at.strftime('%d/%m/%Y %H:%M') if tx.created_at else 'Recent' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                No toll crossings recorded for your vehicles yet. Test crossing in the <a href="{{ url_for('simulation.simulation_page') }}">Tollgate Simulation</a>.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fund Toll Account Modal (Simulated Mobile Money / Card Top-up) -->
+<div class="modal fade" id="fundAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card-tech border-0 shadow">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title fw-bold">
+                    <i class="fa fa-money-bill-transfer me-2"></i>Fund Toll Account (Top-Up)
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('motorist.fund_account') }}" method="POST">
+                <div class="modal-body p-4">
+                    <div class="alert alert-light border small text-muted mb-3">
+                        <i class="fa fa-info-circle text-success me-1"></i>
+                        Simulated top-up: Balance in MySQL database will immediately increase upon confirmation.
+                    </div>
+
+                    <!-- Quick Amount Buttons -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Quick Top-Up Presets</label>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-success flex-fill fw-bold" onclick="document.getElementById('topupAmount').value = '50'">K50</button>
+                            <button type="button" class="btn btn-outline-success flex-fill fw-bold" onclick="document.getElementById('topupAmount').value = '100'">K100</button>
+                            <button type="button" class="btn btn-outline-success flex-fill fw-bold" onclick="document.getElementById('topupAmount').value = '200'">K200</button>
+                            <button type="button" class="btn btn-outline-success flex-fill fw-bold" onclick="document.getElementById('topupAmount').value = '500'">K500</button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Amount -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Amount in Kwacha (ZMW)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light fw-bold">K</span>
+                            <input type="number" step="10" min="10" name="amount" id="topupAmount" class="form-control fs-5 fw-bold" value="100" required>
+                        </div>
+                    </div>
+
+                    <!-- Payment Provider Selection -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Payment Channel</label>
+                        <select class="form-select" name="provider">
+                            <option value="Airtel Money" selected>Airtel Money (+260)</option>
+                            <option value="MTN MoMo">MTN Mobile Money (+260)</option>
+                            <option value="Zamtel Kwacha">Zamtel Kwacha (+260)</option>
+                            <option value="Visa / Mastercard">Visa / Mastercard (Zambian Bank Card)</option>
+                        </select>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Mobile Money Phone Number</label>
+                        <input type="text" name="phone" class="form-control font-monospace" value="{{ user.phone }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-top">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success fw-bold px-4">
+                        <i class="fa fa-plus me-1"></i>Add Funds (Simulated)
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
